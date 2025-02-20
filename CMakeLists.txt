@@ -34,7 +34,8 @@ ament_auto_add_library(glim_ros SHARED
 target_include_directories(glim_ros PUBLIC
   include
 )
-target_link_libraries(glim_ros
+target_link_libraries(glim_ros PUBLIC
+  gtsam
   glim::glim
 )
 rclcpp_components_register_nodes(glim_ros "glim::GlimROS")
