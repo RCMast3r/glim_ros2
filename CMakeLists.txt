@@ -34,7 +34,7 @@ ament_auto_add_library(glim_ros SHARED
 target_include_directories(glim_ros PUBLIC
   include
 )
-target_link_libraries(glim_ros PUBLIC
+target_link_libraries(glim_ros
   gtsam
   glim::glim
 )
@@ -49,24 +49,26 @@ ament_auto_add_executable(glim_rosnode
   src/glim_rosnode.cpp
 )
 target_link_libraries(glim_rosnode
+  gtsam
   glim_ros
 )
 
 ### glim_rosbag ###
-ament_auto_add_executable(glim_rosbag
-  src/glim_rosbag.cpp
-)
-target_link_libraries(glim_rosbag
-  glim_ros
-)
+# ament_auto_add_executable(glim_rosbag
+#   src/glim_rosbag.cpp
+# )
+# target_link_libraries(glim_rosbag
+#   glim_ros
+# )
 
 ### validator_node ###
-ament_auto_add_executable(validator_node
-  src/validator_node.cpp
-)
-target_link_libraries(validator_node
-  glim_ros
-)
+# ament_auto_add_executable(validator_node
+#   src/validator_node.cpp
+# )
+# target_link_libraries(validator_node
+#   gtsam
+#   glim_ros
+# )
 
 if(BUILD_WITH_VIEWER)
   ### offline_viewer ###
