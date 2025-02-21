@@ -10,11 +10,14 @@ endif()
 
 option(BUILD_WITH_CUDA "Build with GPU support" ON)
 option(BUILD_WITH_VIEWER "Build with visualizer" ON)
-
 find_package(ament_cmake_auto REQUIRED)
 ament_auto_find_build_dependencies()
 
+
+find_package(GTSAM REQUIRED)
+
 find_package(glim REQUIRED)
+find_package(gtsam_points REQUIRED)
 
 if(BUILD_WITH_CUDA)
   add_definitions(-DBUILD_GTSAM_POINTS_GPU)
@@ -34,23 +37,28 @@ ament_auto_add_library(glim_ros SHARED
 target_include_directories(glim_ros PUBLIC
   include
 )
+
 target_link_libraries(glim_ros
-  gtsam
   glim::glim
+  gtsam_points::gtsam_points
+  gtsam
 )
 rclcpp_components_register_nodes(glim_ros "glim::GlimROS")
 
-ament_auto_add_library(rviz_viewer SHARED
-  src/glim_ros/rviz_viewer.cpp
-)
+# ament_auto_add_library(rviz_viewer SHARED
+#   src/glim_ros/rviz_viewer.cpp
+# )
 
 ### glim_rosnode ###
 ament_auto_add_executable(glim_rosnode
   src/glim_rosnode.cpp
 )
+
 target_link_libraries(glim_rosnode
-  gtsam
+  glim::glim
+  gtsam_points::gtsam_points
   glim_ros
+  gtsam
 )
 
 ### glim_rosbag ###
