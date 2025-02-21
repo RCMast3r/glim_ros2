@@ -41,8 +41,9 @@ target_include_directories(glim_ros PUBLIC
 target_link_libraries(glim_ros
   glim::glim
   gtsam_points::gtsam_points
-  gtsam
+  gtsam_unstable
 )
+
 rclcpp_components_register_nodes(glim_ros "glim::GlimROS")
 
 # ament_auto_add_library(rviz_viewer SHARED
