@@ -68,7 +68,7 @@ GlimROS::GlimROS(const rclcpp::NodeOptions& options) : Node("glim_ros", options)
 
   if (config_path[0] != '/') {
     // config_path is relative to the glim directory
-    config_path = ament_index_cpp::get_package_share_directory("glim") + "/" + config_path;
+    // config_path = ament_index_cpp::get_package_share_directory("glim") + "/" + config_path;
   }
 
   logger->info("config_path: {}", config_path);
@@ -91,7 +91,7 @@ GlimROS::GlimROS(const rclcpp::NodeOptions& options) : Node("glim_ros", options)
 
   // Odometry estimation
   glim::Config config_odometry(glim::GlobalConfig::get_config_path("config_odometry"));
-  const std::string odometry_estimation_so_name = config_odometry.param<std::string>("odometry_estimation", "so_name", "libodometry_estimation_cpu.so");
+  const std::string odometry_estimation_so_name = config_odometry.param<std::string>("odometry_estimation", "so_name", "/nix/store/xs1mzgz9xaw4bw2vgvasik4c5yv7f632-glim-1.0.7-dev/lib/libodometry_estimation_cpu.so");
   spdlog::info("load {}", odometry_estimation_so_name);
 
   std::shared_ptr<glim::OdometryEstimationBase> odom = OdometryEstimationBase::load_module(odometry_estimation_so_name);
@@ -102,7 +102,7 @@ GlimROS::GlimROS(const rclcpp::NodeOptions& options) : Node("glim_ros", options)
   odometry_estimation.reset(new glim::AsyncOdometryEstimation(odom, odom->requires_imu()));
 
   // Sub mapping
-  if (config_ros.param<bool>("glim_ros", "enable_local_mapping", true)) {
+  if (config_ros.param<bool>("glim_ros", "enable_local_mapping", false)) {
     const std::string sub_mapping_so_name =
       glim::Config(glim::GlobalConfig::get_config_path("config_sub_mapping")).param<std::string>("sub_mapping", "so_name", "libsub_mapping.so");
     if (!sub_mapping_so_name.empty()) {
@@ -117,7 +117,7 @@ GlimROS::GlimROS(const rclcpp::NodeOptions& options) : Node("glim_ros", options)
   // Global mapping
   if (config_ros.param<bool>("glim_ros", "enable_global_mapping", true)) {
     const std::string global_mapping_so_name =
-      glim::Config(glim::GlobalConfig::get_config_path("config_global_mapping")).param<std::string>("global_mapping", "so_name", "libglobal_mapping.so");
+      glim::Config(glim::GlobalConfig::get_config_path("config_global_mapping")).param<std::string>("global_mapping", "so_name", "/nix/store/xs1mzgz9xaw4bw2vgvasik4c5yv7f632-glim-1.0.7-dev/lib/libglobal_mapping.so");
     if (!global_mapping_so_name.empty()) {
       spdlog::info("load {}", global_mapping_so_name);
       auto global = GlobalMappingBase::load_module(global_mapping_so_name);

@@ -46,9 +46,9 @@ target_link_libraries(glim_ros
 
 rclcpp_components_register_nodes(glim_ros "glim::GlimROS")
 
-# ament_auto_add_library(rviz_viewer SHARED
-#   src/glim_ros/rviz_viewer.cpp
-# )
+ament_auto_add_library(rviz_viewer SHARED
+  src/glim_ros/rviz_viewer.cpp
+)
 
 ### glim_rosnode ###
 ament_auto_add_executable(glim_rosnode
